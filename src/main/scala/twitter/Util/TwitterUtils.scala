@@ -19,14 +19,14 @@ object TwitterUtils {
 
   val sleepSeconds: Long = conf.getLong("twitter.sleep.duration")
 
-  class Listener extends StatusListener {
+  class Listener(send:Status => Unit) extends StatusListener {
     override def onStallWarning(warning: StallWarning): Unit = {}
 
     override def onDeletionNotice(statusDeletionNotice: StatusDeletionNotice): Unit = {}
 
     override def onScrubGeo(userId: Long, upToStatusId: Long): Unit = {}
 
-    override def onStatus(status: Status): Unit = { println(status) }
+    override def onStatus(status: Status): Unit = { send(status) }
 
     override def onTrackLimitationNotice(numberOfLimitedStatuses: Int): Unit = {}
 
